@@ -2,12 +2,15 @@ import os
 import sys
 import json
 
+
+# to load the variables in the .env file
 from dotenv import load_dotenv
 load_dotenv()
 
 MONGO_DB_URL=os.getenv("MONGO_DB_URL")
 print(MONGO_DB_URL)
 
+#certifi provides a set of root certificates used by Py libraries to make a secure http connection. ca stores the bundle of certificates
 import certifi
 ca=certifi.where()
 
@@ -50,7 +53,7 @@ class NetworkDataExtract():
         
 if __name__=='__main__':
     FILE_PATH="Network_Data\phisingData.csv"
-    DATABASE="KRISHAI"
+    DATABASE="SPANAI"
     Collection="NetworkData"
     networkobj=NetworkDataExtract()
     records=networkobj.csv_to_json_convertor(file_path=FILE_PATH)
