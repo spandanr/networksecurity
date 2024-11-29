@@ -8,6 +8,8 @@ of your project, such as its metadata, dependencies, and more
 from setuptools import find_packages,setup
 from typing import List
 
+##Wherever, it finds a __init__.py , it will consider that as a package
+
 def get_requirements()->List[str]:
     """
     Thiss function will return list of requirements
@@ -29,11 +31,12 @@ def get_requirements()->List[str]:
 
     return requirement_lst
 
+
 setup(
     name="NetworkSecurity",
     version="0.0.1",
-    author="Krish Naik",
-    author_email="krishnaik06@gmail.com",
+    author="Spandan Rakshit",
+    author_email="spandan.it48@gmail.com",
     packages=find_packages(),
     install_requires=get_requirements()
 )
