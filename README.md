@@ -27,3 +27,6 @@ sudo sh get-docker.sh
 sudo usermod -aG docker ubuntu
 
 newgrp docker
+
+
+![alt text](image.png)
