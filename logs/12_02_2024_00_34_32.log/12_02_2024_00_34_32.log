@@ -1,0 +1,6 @@
+[ 2024-12-02 00:34:57,848 ] 1027 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[ 2024-12-02 00:34:57,880 ] 107 dagshub - INFO - Accessing as spandanr
+[ 2024-12-02 00:34:58,268 ] 1027 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/spandanr/networksecurity "HTTP/1.1 200 OK"
+[ 2024-12-02 00:34:58,619 ] 1027 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[ 2024-12-02 00:34:58,623 ] 107 dagshub - INFO - Initialized MLflow to track repo "spandanr/networksecurity"
+[ 2024-12-02 00:34:58,625 ] 107 dagshub - INFO - Repository spandanr/networksecurity initialized!
