@@ -27,11 +27,12 @@ import mlflow
 from urllib.parse import urlparse
 
 import dagshub
-#dagshub.init(repo_owner='krishnaik06', repo_name='networksecurity', mlflow=True)
+dagshub.init(repo_owner='spandanr', repo_name='networksecurity', mlflow=True)
 
-os.environ["MLFLOW_TRACKING_URI"]="https://dagshub.com/krishnaik06/networksecurity.mlflow"
-os.environ["MLFLOW_TRACKING_USERNAME"]="krishnaik06"
-os.environ["MLFLOW_TRACKING_PASSWORD"]="7104284f1bb44ece21e0e2adb4e36a250ae3251f"
+
+os.environ["MLFLOW_TRACKING_URI"]="https://dagshub.com/spandanr/networksecurity.mlflow"
+os.environ["MLFLOW_TRACKING_USERNAME"]="spandanr"
+os.environ["MLFLOW_TRACKING_PASSWORD"]="788b62fc147c50e7d366d77e481dad6ae78dcd82"
 
 
 
@@ -46,7 +47,7 @@ class ModelTrainer:
             raise NetworkSecurityException(e,sys)
         
     def track_mlflow(self,best_model,classificationmetric):
-        mlflow.set_registry_uri("https://dagshub.com/krishnaik06/networksecurity.mlflow")
+        mlflow.set_registry_uri("https://dagshub.com/spandanr/networksecurity.mlflow")
         tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
         with mlflow.start_run():
             f1_score=classificationmetric.f1_score
@@ -60,15 +61,17 @@ class ModelTrainer:
             mlflow.log_metric("recall_score",recall_score)
             mlflow.sklearn.log_model(best_model,"model")
             # Model registry does not work with file store
-            if tracking_url_type_store != "file":
+            # if tracking_url_type_store != "file":
 
-                # Register the model
-                # There are other ways to use the Model Registry, which depends on the use case,
-                # please refer to the doc for more information:
-                # https://mlflow.org/docs/latest/model-registry.html#api-workflow
-                mlflow.sklearn.log_model(best_model, "model", registered_model_name=best_model)
-            else:
-                mlflow.sklearn.log_model(best_model, "model")
+            #     # Register the model
+            #     # There are other ways to use the Model Registry, which depends on the use case,
+            #     # please refer to the doc for more information:
+            #     # https://mlflow.org/docs/latest/model-registry.html#api-workflow
+            #     mlflow.sklearn.log_model(best_model, "model", registered_model_name=best_model)
+            #     print("Track here")
+            # else:
+            #     mlflow.sklearn.log_model(best_model, "model")
+            #     print("Track here also")
 
 
         
@@ -90,7 +93,7 @@ class ModelTrainer:
                 # 'criterion':['gini', 'entropy', 'log_loss'],
                 
                 # 'max_features':['sqrt','log2',None],
-                'n_estimators': [8,16,32,128,256]
+                'n_estimators': [8,16,32,64]
             },
             "Gradient Boosting":{
                 # 'loss':['log_loss', 'exponential'],
@@ -122,14 +125,14 @@ class ModelTrainer:
         y_train_pred=best_model.predict(X_train)
 
         classification_train_metric=get_classification_score(y_true=y_train,y_pred=y_train_pred)
-        
+       
         ## Track the experiements with mlflow
         self.track_mlflow(best_model,classification_train_metric)
 
-
+     
         y_test_pred=best_model.predict(x_test)
         classification_test_metric=get_classification_score(y_true=y_test,y_pred=y_test_pred)
-
+        print(classification_test_metric)
         self.track_mlflow(best_model,classification_test_metric)
 
         preprocessor = load_object(file_path=self.data_transformation_artifact.transformed_object_file_path)
@@ -149,15 +152,11 @@ class ModelTrainer:
                              test_metric_artifact=classification_test_metric
                              )
         logging.info(f"Model trainer artifact: {model_trainer_artifact}")
+
+        
         return model_trainer_artifact
 
 
-        
-
-
-       
-    
-    
         
     def initiate_model_trainer(self)->ModelTrainerArtifact:
         try:
@@ -172,7 +171,7 @@ class ModelTrainer:
                 train_arr[:, :-1],
                 train_arr[:, -1],
                 test_arr[:, :-1],
-                test_arr[:, -1],
+                test_arr[:, -1]
             )
 
             model_trainer_artifact=self.train_model(x_train,y_train,x_test,y_test)
@@ -181,3 +180,4 @@ class ModelTrainer:
             
         except Exception as e:
             raise NetworkSecurityException(e,sys)
+        
