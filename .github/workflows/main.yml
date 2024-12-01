@@ -27,7 +27,7 @@ jobs:
 
   build-and-push-ecr-image:
     name: Continuous Delivery
-    needs: integration
+    needs: integration #Unless Integration gets completed, do not start this
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
